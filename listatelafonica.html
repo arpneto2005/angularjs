@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html ng-app="listaTelefonica">
+	<head>
+		<title> Lista Telefônica </title>
+		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+		<script src="angular.min.js"></script>
+		<script>
+			angular.module("listaTelefonica", []);
+			angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){
+				$scope.app = "Lista Telefônica";
+				$scope.contatos = [
+					{nome: "Pedro", telefone: "99998888"},
+					{nome: "José", telefone: "99998877"},
+					{nome: "João", telefone: "99998866"}
+				]
+				$scope.adicionarContato = function(contato){
+					/*
+						console.log($scope.nome);
+						Lendo o scope diretamente:
+						$scope.contatos.push({nome: $scope.nome, telefone: $scope.telefone});
+						Lendo a Partir dos parametros da função:
+						function(nome, telefone)
+						$scope.contatos.push({nome: nome, telefone: telefone});
+						Lendo atravez da diretiva contato:
+						$scope.contatos.push(angular.copy(contato));
+						obs.: deve ser seguida de delete
+					*/
+					
+					$scope.contatos.push(angular.copy(contato));
+					delete $scope.contato;
+				};
+				$scope.operadoras = [
+					{nome: "OI", codigo: 31, categoria="Celular"},
+					{nome: "TIM", codigo: 41, categoria="Celular"},
+					{nome: "VIVO", codigo: 15, categoria="Celular"},
+					{nome: "CLARO", codigo: 21, categoria="Celular"},
+					{nome: "GVT", codigo: 78, categoria="Fixo"},
+					{nome: "Embratel", codigo: 20, categoria="Fixo"}
+				];
+			});
+		</script>
+		<style>
+			.jumbotron{
+				width: 500px;
+				text-align: center;
+				margin-top: 20px;
+				margin-left: auto;
+				margin-right: auto;
+				padding: 5%;
+			}
+			.table{
+				margin-right: auto;
+				margin-left: auto;
+				margin-top: 20px;
+			}
+		</style>
+	</head>
+	<body ng-controller="listaTelefonicaCtrl">
+		<div class="jumbotron">
+			<!--
+				<h4 ng-bind="app"></h4>
+				<h4> {{ contatos }} </h4>
+			-->
+			<h3> {{ app }} </h3>
+			<table class="table table-striped">
+				<tr>
+					<th> Nome </th>
+					<th> Telefone </th>
+					<th> Operadora </th>
+				</tr>
+				<tr ng-repeat="contato in contatos">
+					<!--
+					<td ng-repeat="(key, value) in contato">
+						{{ value }}
+					</td>
+					-->
+					<td> {{contato.nome}} </td>
+					<td> {{contato.telefone}} </td>
+					<td> {{contato.operadora.nome}} </td>
+				</tr>
+			</table>
+			<hr>
+			<input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome"/><br>
+			<input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone"/><br>
+			<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome for operadora in operadoras">
+				<option value=""> Selecione sua Operadora </option>
+			</select>
+			<hr>
+			<button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone"> Adicionar Contato </button>
+			<!--  
+			{{ contato }}
+			
+			{{ operadoras }}
+			-->
+		</div>
+	</body>
+</html>
